@@ -81,9 +81,12 @@ You have to use a **path** pointing to the entity you want to access.
 
 You can compose the path in various ways:
 
-- starting from the root of the current crate, e.g. `crate::module_1::module_2::MyStruct`
+- starting from the root of the current crate, e.g. `crate::module_1::MyStruct`
 - starting from the parent module, e.g. `super::my_function`
 - starting from the current module, e.g. `sub_module_1::MyStruct`
+
+Both `crate` and `super` are **keywords**.\
+`crate` refers to the root of the current crate, while `super` refers to the parent of the current module.
 
 Having to write the full path every time you want to refer to a type can be cumbersome.
 To make your life easier, you can introduce a `use` statement to bring the entity into scope.
@@ -112,3 +115,10 @@ where each name comes from and potentially introducing name conflicts.\
 Nonetheless, it can be useful in some cases, like when writing unit tests. You might have noticed
 that most of our test modules start with a `use super::*;` statement to bring all the items from the parent module
 (the one being tested) into scope.
+
+## Visualizing the module tree
+
+If you're struggling to picture the module tree of your project, you can try using
+[`cargo-modules`](https://crates.io/crates/cargo-modules) to visualize it!
+
+Refer to their documentation for installation instructions and usage examples.

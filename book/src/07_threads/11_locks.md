@@ -58,7 +58,7 @@ drop(guard)
 ## Locking granularity
 
 What should our `Mutex` wrap?\
-The simplest option would be the wrap the entire `TicketStore` in a single `Mutex`.\
+The simplest option would be to wrap the entire `TicketStore` in a single `Mutex`.\
 This would work, but it would severely limit the system's performance: you wouldn't be able to read tickets in parallel,
 because every read would have to wait for the lock to be released.\
 This is known as **coarse-grained locking**.
@@ -111,7 +111,8 @@ fn main() {
 The compiler is not happy with this code:
 
 ```text
-error[E0277]: `MutexGuard<'_, i32>` cannot be sent between threads safely
+error[E0277]: `MutexGuard<'_, i32>` cannot be sent between 
+              threads safely
    --> src/main.rs:10:7
     |
 10  |   spawn(move || {
@@ -122,8 +123,11 @@ error[E0277]: `MutexGuard<'_, i32>` cannot be sent between threads safely
 12  | | });
     | |_^ `MutexGuard<'_, i32>` cannot be sent between threads safely
     |
-    = help: the trait `Send` is not implemented for `MutexGuard<'_, i32>`, which is required by `{closure@src/main.rs:10:7: 10:14}: Send`
-    = note: required for `std::sync::mpsc::Receiver<MutexGuard<'_, i32>>` to implement `Send`
+    = help: the trait `Send` is not implemented for 
+            `MutexGuard<'_, i32>`, which is required by 
+            `{closure@src/main.rs:10:7: 10:14}: Send`
+    = note: required for `Receiver<MutexGuard<'_, i32>>` 
+            to implement `Send`
 note: required because it's used within this closure
 ```
 
